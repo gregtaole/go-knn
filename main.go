@@ -64,10 +64,8 @@ func main() {
 
 	for key, v := range testData {
 		neighbors := v.getNeighbors(trainData, k)
-		fmt.Printf("%v\n", neighbors)
 		testData[key].prediction = v.getClass(neighbors)
 	}
-	fmt.Printf("Test data : \n%v", testData)
 	accuracy, errors := getAccuracy(testData)
 	fmt.Printf("Classification accuracy is %v\n", accuracy)
 	fmt.Printf("Missclassified elements : %v\n%v\n", len(errors), errors)
@@ -138,7 +136,7 @@ func (d *datum) getNeighbors(train []datum, k int) []datum {
 		distances[i] = v
 	}
 	sort.SliceStable(distances, func(i, j int) bool { return distances[i].distance < distances[j].distance })
-	return distances[len(distances)-k:]
+	return distances[:k]
 }
 
 func (d *datum) getClass(neighbors []datum) int {
